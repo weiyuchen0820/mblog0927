@@ -10,7 +10,7 @@ def homepage(request):
     return render (request, 'index.html', locals())
 
 def showpost(request,slug):
-    Post.objects.get(slug=slug)
+    post = Post.objects.get(slug=slug)
     return render(request, 'post.html', locals())
 
 '''

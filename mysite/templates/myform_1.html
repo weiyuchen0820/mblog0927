@@ -11,7 +11,7 @@
 <h2>登入失敗</h2>
 {% endif %}
 
-<form action="" method="get">
+<form action="" method="post">
     {% csrf_token %}
     <label for="fname">帳號:</label><br>
     <input type="text" id="user_id" name="user_id"><br>

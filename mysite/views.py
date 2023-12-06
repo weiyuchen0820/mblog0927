@@ -56,6 +56,8 @@ def carlist(request, maker=0):
     cars = car_list[maker]
     return render(request, 'carlist.html', locals())
 
+def new_post(request):
+    return render(request, 'myform_1.html', locals())
 '''
 def homepage(request):
     posts = Post.objects.all() #select * from post

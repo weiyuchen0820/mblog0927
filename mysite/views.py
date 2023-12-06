@@ -57,7 +57,28 @@ def carlist(request, maker=0):
     return render(request, 'carlist.html', locals())
 
 def new_post(request):
-    return render(request, 'myform_1.html', locals())
+    print(f'form method: {request.method}')
+    if request.method == 'GET':
+        return render(request, 'myform_1.html',locals())
+    elif request.method == 'POST':
+        username = request.POST['user_id']
+        password = request.POST['password']
+        if username == 'ntub' and password == 'a123':
+            is_validated = True
+        else:
+            is_validated = False
+        print(f'post-username:{username}, password:{password}')
+        return render(request, 'myform_1.html',locals())
+    
+    '''
+    try:
+        username = request.GET['user_id']
+        password = request.GET['password']
+        print(f'username:{username}, password:{password}')
+        return render(request, 'myform_1.html',locals())
+    except:
+        return render(request, 'myform_1.html',locals())
+    '''
 '''
 def homepage(request):
     posts = Post.objects.all() #select * from post

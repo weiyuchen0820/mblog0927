@@ -1,14 +1,20 @@
 {% extends "base2.html" %}
-{% load markdown_extras %}
 {% block title %} 表單輸入 {% endblock title %}
 {% block headmessage %} 
 <a style='font-family:微軟正黑體;' href='/'>回首頁</a>
 {% endblock headmessage %} 
-{% block content %} 
 
-<form name="myform" method="get">
+{% block content %} 
+{% if is_vaildated %}
+<h2>登入成功</h2>
+{% else %}
+<h2>登入失敗</h2>
+{% endif %}
+
+<form action="" method="get">
+    {% csrf_token %}
     <label for="fname">帳號:</label><br>
-    <input type="text" id="user_id" name="user_id" value="ntub"><br>
+    <input type="text" id="user_id" name="user_id"><br>
     <label for="lname"></label><br>
     <input type="password" id="password" name="password"><br>
     <input type="submit" value="送出">

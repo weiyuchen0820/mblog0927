@@ -56,28 +56,6 @@ def carlist(request, maker=0):
     cars = car_list[maker]
     return render(request, 'carlist.html', locals())
 
-def new_post(request):
-    print(f'form method: {request.method}')
-    if request.method == 'GET':
-        return render(request, 'myform_1.html',locals())
-    elif request.method == 'POST':
-        title = request.POST['title']
-        slug = request.POST['slug']
-        content = request.POST['content']
-        category = request.POST.getlist('category')
-        post = Post(title = title, slug = slug, body=content, category=category)
-        post.save()
-        return render(request, 'myform_1.html',locals())
-    
-    '''
-    try:
-        username = request.GET['user_id']
-        password = request.GET['password']
-        print(f'username:{username}, password:{password}')
-        return render(request, 'myform_1.html',locals())
-    except:
-        return render(request, 'myform_1.html',locals())
-    '''
 '''
 def homepage(request):
     posts = Post.objects.all() #select * from post
@@ -86,3 +64,25 @@ def homepage(request):
         post_lists.append(f'No. {counter}-{post} <br>')
     return HttpResponse(post_lists)
 '''
+
+def new_post(request):
+    print(f'form method: {request.method}')
+    if request.method == 'GET':
+        return render(request, 'myform_1.html', locals())
+    elif request.method == 'POST':
+        title = request.POST['title']
+        slug = request.POST['slug']
+        content = request.POST['content']
+        category = request.POST.getlist('category')
+        post = Post(title=title, slug=slug, body=content, category=category)
+        post.save()
+        return render(request, 'myform_1.html', locals())
+    '''
+    try:
+        username = request.GET['user_id']
+        password = request.GET['password']
+        print(f'username:{username}, password:{password}')
+        return render(request, 'myform_1.html', locals())
+    except:
+        return render(request, 'myform_1.html', locals())
+    '''

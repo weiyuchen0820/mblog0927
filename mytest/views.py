@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
-from mytest.models import Post, Mood
-from mytest.forms import ContactForm, PostForm, UserRegisterForm, LoginForm
+from mytest.models import Post, Mood, Profile
+from mytest.forms import ContactForm, PostForm, UserRegisterForm, LoginForm, ProfileForm
 
 # Create your views here.
 def index(request):
     posts = Post.objects.filter(enabled=True).order_by('-pub_time')[:30]
     moods = Mood.objects.all()
+        
     if request.method == 'GET':
         return render(request, 'myform.html', locals())
     elif request.method == 'POST':
@@ -115,3 +116,35 @@ def login(request):
     else:
         message = "ERROR"
         return render(request, 'login.html', locals())
+   
+@login_required(login_url='/login/') 
+def profile(request):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            username = request.user.username
+            try:
+                user = User.objects.get(username=username)
+                userinfo = Profile.objects.get(user=user)
+                form = ProfileForm(instance=userinfo)
+            except:
+                form = ProfileForm()
+        return render(request, 'userinfo.html', locals())
+    elif request.method == 'POST':
+        username = request.user.username
+        user = User.objects.get(username=username)
+        try:
+            userinfo = Profile.objects.get(user=user)
+            form = ProfileForm(request.POST, instance=userinfo)
+            form.save()
+            message = f'成功更新個人資料！'
+        except:
+            form = ProfileForm(request.POST)
+            userinfo = form.save(commit=False)
+            userinfo.user = user
+            userinfo.save()
+            message = f'成功新增！'    
+        return render(request, 'userinfo.html', locals())
+    else:
+        message = "ERROR"
+        print('出錯回首頁')
+        redirect("/")

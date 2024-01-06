@@ -111,6 +111,7 @@ def login(request):
                     message = '帳號尚未啟用'
             else:
                 message = '登入失敗'
+                user_name = '未登入'
 
         return render(request, 'login.html', locals())
     else:
